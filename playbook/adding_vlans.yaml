@@ -1,0 +1,51 @@
+---
+  - name: "Managing VLAN"
+    hosts: switches
+    gather_facts: no
+    tasks:
+
+######### Adding VLAN ##########
+
+      - name: adding vlan
+        cisco.ios.ios_vlans:
+          config:
+            - name: HRD room
+              vlan_id: 2
+              shutdown: disabled
+              state: active
+
+            - name: Finance room
+              vlan_id: 3
+              shutdown: disabled
+              state: active
+
+            - name: Director room
+              vlan_id: 4
+              shutdown: disabled
+              state: active
+
+            - name: Manager room
+              vlan_id: 5
+              shutdown: disabled
+              state: active
+
+          state: merged
+
+######## Remove VLAN ##############
+
+      - name: removing vlan
+        cisco.ios.ios_vlans:
+          config:
+            - name: HRD room
+              vlan_id: 2
+
+            - name: Finance room
+              vlan_id: 3
+
+            - name: Director room
+              vlan_id: 4
+
+            - name: Manager room
+              vlan_id: 5
+
+          state: deleted

@@ -1,0 +1,79 @@
+---
+
+############ CONFIGURING OSPF ON EACH ROUTERS ########
+
+############ Router 1 ##################
+
+  - name: configuring R1
+    hosts: r1.lab
+    gather_facts: false
+    tasks:
+
+      - name: configuring...
+        cisco.ios.ios_ospfv2:
+          config:
+            processes:
+
+              - process_id: 100
+                router_id: 1.1.1.1
+                network:
+                  - { address: 192.168.1.0, wildcard_bits: 0.0.0.3, area: '0' }
+                  - { address: 192.168.3.0, wildcard_bits: 0.0.0.3, area: '0' }
+                  - { address: 1.1.1.1, wildcard_bits: 0.0.0.0, area: '0' }
+
+                log_adjacency_changes:
+                  set: yes
+
+          state: replaced
+
+
+
+############### Router 2 #################
+
+  - name: configuring R2
+    hosts: r2.lab
+    gather_facts: false
+    tasks:
+
+      - name: configuring...
+        cisco.ios.ios_ospfv2:
+          config:
+            processes:
+
+              - process_id: 100
+                router_id: 2.2.2.2
+                network:
+                  - { address: 192.168.1.0, wildcard_bits: 0.0.0.3, area: '0' }
+                  - { address: 192.168.2.0, wildcard_bits: 0.0.0.3, area: '0' }
+                  - { address: 2.2.2.2, wildcard_bits: 0.0.0.0, area: '0' }
+  
+                log_adjacency_changes:
+                  set: yes
+
+          state: replaced
+
+
+
+ ############ Router 3 ###############
+
+  - name: configuring R3
+    hosts: r3.lab
+    gather_facts: false
+    tasks:
+
+      - name: configuring...
+        cisco.ios.ios_ospfv2:
+          config:
+            processes:
+
+              - process_id: 100
+                router_id: 3.3.3.3
+                network:
+                  - { address: 192.168.2.0, wildcard_bits: 0.0.0.3, area: '0' }
+                  - { address: 192.168.5.0, wildcard_bits: 0.0.0.3, area: '0' }
+                  - { address: 3.3.3.3, wildcard_bits: 0.0.0.0, area: '0' }
+    
+                log_adjacency_changes:
+                  set: yes
+
+          state: replaced

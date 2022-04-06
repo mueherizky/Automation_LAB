@@ -1,0 +1,99 @@
+---
+
+################ ROUTER 1 #############
+
+  - name: Configuring routing table R1
+    hosts: r1.lab
+    gather_facts: false
+    tasks:
+
+      - name: configuring R1...
+        cisco.ios.ios_static_routes:
+          config:
+            - address_families:          
+              - afi: ipv4                
+                routes:  
+                  - dest: 192.168.2.0/30
+                    next_hops:
+                      - { forward_router_address: 192.168.1.2, distance_metric: 115, name: "to link R2-R3" }
+
+                  - dest: 192.168.5.0/30 
+                    next_hops:     
+                      - { forward_router_address: 192.168.1.2, distance_metric: 115, name: "to client on R3" } 
+
+                  - dest: 2.2.2.2/32 
+                    next_hops:     
+                      - { forward_router_address: 192.168.1.2, distance_metric: 115, name: "to RID R2" } 
+
+                  - dest: 3.3.3.3/32
+                    next_hops:     
+                      - { forward_router_address: 192.168.1.2, distance_metric: 115, name: "to RID R3" } 
+                                                                    
+          state: merged
+
+
+
+################## ROUTER 2 #################
+
+  - name: Configuring routing table R2
+    hosts: r2.lab
+    gather_facts: false
+    tasks:
+
+      - name: configuring R2...
+        cisco.ios.ios_static_routes:
+          config:
+            - address_families:           
+              - afi: ipv4               
+                routes:
+                  - dest: 192.168.3.0/30
+                    next_hops:
+                      - { forward_router_address: 192.168.1.1, distance_metric: 115, name: "to client on R1" }
+
+                  - dest: 1.1.1.1/32
+                    next_hops:     
+                      - { forward_router_address: 192.168.1.1, distance_metric: 115, name: "to RID R1" } 
+
+                  - dest: 192.168.5.0/30 
+                    next_hops:     
+                      - { forward_router_address: 192.168.2.2, distance_metric: 115, name: "to client on R3" } 
+
+                  - dest: 3.3.3.3/32
+                    next_hops:     
+                      - { forward_router_address: 192.168.2.2, distance_metric: 115, name: "to RID R3" } 
+
+          state: merged
+
+
+
+############## ROUTER 3 #############
+
+  - name: Configuring routing table R3
+    hosts: r3.lab
+    gather_facts: false
+    tasks:
+
+      - name: configuring R3...
+        cisco.ios.ios_static_routes:
+          config:
+            - address_families:
+              - afi: ipv4              
+                routes:
+
+                  - dest: 192.168.1.0/30
+                    next_hops:
+                      - { forward_router_address: 192.168.2.1, distance_metric: 115, name: "to link R1-R2" }
+
+                  - dest: 192.168.3.0/30 
+                    next_hops:     
+                      - { forward_router_address: 192.168.2.1, distance_metric: 115, name: "to client on R1" } 
+
+                  - dest: 1.1.1.1/32 
+                    next_hops:     
+                      - { forward_router_address: 192.168.2.1, distance_metric: 115, name: "to RID R1" } 
+
+                  - dest: 2.2.2.2/32
+                    next_hops:     
+                      - { forward_router_address: 192.168.2.1, distance_metric: 115, name: "to RID R2" } 
+
+          state: merged

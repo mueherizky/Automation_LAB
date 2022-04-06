@@ -1,0 +1,30 @@
+all:
+  children:
+    routers:
+      children:
+        r1:
+          hosts:
+            r1.lab:    
+              ansible_host: 192.168.122.5
+
+        r2:
+          hosts:
+            r2.lab:
+              ansible_host: 192.168.122.6       
+                                 
+        r3:
+          hosts:
+            r3.lab:
+              ansible_host: 192.168.122.7
+ 
+      vars:
+        ansible_connection: network_cli
+        ansible_network_os: ios
+        ansible_user: cisco
+        ansible_password: !vault |
+          $ANSIBLE_VAULT;1.2;AES256;test
+          33373732326331333939383431616365633436633264653135343630613661393666333864386437
+          6138376164376461366639346334646536326564343732630a663461313465303364623765393937
+          33383163343532313366666638376435666635626637313834656330336262646561346161343131
+          6133613565363964340a303265643437623134613766663565373764633366373762643863393331
+          3532

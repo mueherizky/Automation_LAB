@@ -1,0 +1,97 @@
+---
+  - name: Managing L2 Interfaces
+    hosts: switches
+    gather_facts: no
+    tasks:
+
+###### Configuring Interfaces Mode Access #######
+      - name: configuring access mode
+        cisco.ios.ios_l2_interfaces:
+          config:
+            - name: GigabitEthernet0/2
+              access:
+                vlan: 2
+              mode: access
+
+            - name: GigabitEthernet0/3
+              access:
+                vlan: 3
+              mode: access
+
+            - name: GigabitEthernet1/0
+              access:
+                vlan: 4
+              mode: access
+
+            - name: GigabitEthernet1/3
+              access:
+                vlan: 5
+              mode: access
+
+          state: replaced
+
+
+##### Configuring Interfaces Mode Trunk #######
+
+############### Switch 1 ###############
+  - name: Configure trunk S1
+    hosts: s1.lab
+    gather_facts: no
+    tasks:
+
+        - name: configuring trunk...
+          cisco.ios.ios_l2_interfaces:
+            config:
+              - name: GigabitEthernet1/1
+                trunk:
+                  allowed_vlans: 2-5
+                  encapsulation: dot1q
+                  native_vlan: 1000
+                mode: trunk
+
+            state: replaced
+
+
+############### Switch 2 ##############
+  - name: Configure trunk S2
+    hosts: s2.lab
+    gather_facts: no
+    tasks:
+
+        - name: configuring trunk...
+          cisco.ios.ios_l2_interfaces:
+            config:
+              - name: GigabitEthernet1/1
+                trunk:
+                  allowed_vlans: 2-5
+                  encapsulation: dot1q
+                  native_vlan: 1000
+                mode: trunk
+
+              - name: GigabitEthernet1/2
+                trunk:
+                  allowed_vlans: 2-5
+                  encapsulation: dot1q
+                  native_vlan: 1000
+                mode: trunk
+
+            state: replaced
+
+
+############### Switch 3 ###############
+  - name: Configure trunk S3
+    hosts: s3.lab
+    gather_facts: no
+    tasks:
+
+        - name: configuring trunk...
+          cisco.ios.ios_l2_interfaces:
+            config:
+              - name: GigabitEthernet1/2
+                trunk:
+                  allowed_vlans: 2-5
+                  encapsulation: dot1q
+                  native_vlan: 1000
+                mode: trunk
+
+            state: replaced

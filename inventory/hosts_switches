@@ -1,0 +1,10 @@
+[switches]
+s1.lab ansible_host=192.168.122.10
+s2.lab ansible_host=192.168.122.11
+s3.lab ansible_host=192.168.122.12
+
+[switches:vars]
+ansible_connection=network_cli
+ansible_network_os=ios
+ansible_user=cisco
+ansible_password=cisco
