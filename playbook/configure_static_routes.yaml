@@ -15,19 +15,19 @@
                 routes:  
                   - dest: 192.168.2.0/30
                     next_hops:
-                      - { forward_router_address: 192.168.1.2, distance_metric: 115, name: "to link R2-R3" }
+                      - { forward_router_address: '192.168.1.2', distance_metric: 115, name: "to link R2-R3" }
 
                   - dest: 192.168.5.0/30 
                     next_hops:     
-                      - { forward_router_address: 192.168.1.2, distance_metric: 115, name: "to client on R3" } 
+                      - { forward_router_address: '192.168.1.2', distance_metric: 115, name: "to client on R3" } 
 
                   - dest: 2.2.2.2/32 
                     next_hops:     
-                      - { forward_router_address: 192.168.1.2, distance_metric: 115, name: "to RID R2" } 
+                      - { forward_router_address: '192.168.1.2', distance_metric: 115, name: "to RID R2" } 
 
                   - dest: 3.3.3.3/32
                     next_hops:     
-                      - { forward_router_address: 192.168.1.2, distance_metric: 115, name: "to RID R3" } 
+                      - { forward_router_address: '192.168.1.2', distance_metric: 115, name: "to RID R3" } 
                                                                     
           state: merged
 
@@ -48,19 +48,19 @@
                 routes:
                   - dest: 192.168.3.0/30
                     next_hops:
-                      - { forward_router_address: 192.168.1.1, distance_metric: 115, name: "to client on R1" }
+                      - { forward_router_address: '192.168.1.1', distance_metric: 115, name: "to client on R1" }
 
                   - dest: 1.1.1.1/32
                     next_hops:     
-                      - { forward_router_address: 192.168.1.1, distance_metric: 115, name: "to RID R1" } 
+                      - { forward_router_address: '192.168.1.1', distance_metric: 115, name: "to RID R1" } 
 
                   - dest: 192.168.5.0/30 
                     next_hops:     
-                      - { forward_router_address: 192.168.2.2, distance_metric: 115, name: "to client on R3" } 
+                      - { forward_router_address: '192.168.2.2', distance_metric: 115, name: "to client on R3" } 
 
                   - dest: 3.3.3.3/32
                     next_hops:     
-                      - { forward_router_address: 192.168.2.2, distance_metric: 115, name: "to RID R3" } 
+                      - { forward_router_address: '192.168.2.2', distance_metric: 115, name: "to RID R3" } 
 
           state: merged
 
@@ -82,18 +82,18 @@
 
                   - dest: 192.168.1.0/30
                     next_hops:
-                      - { forward_router_address: 192.168.2.1, distance_metric: 115, name: "to link R1-R2" }
+                      - { forward_router_address: '192.168.2.1', distance_metric: 115, name: "to link R1-R2" }
 
                   - dest: 192.168.3.0/30 
                     next_hops:     
-                      - { forward_router_address: 192.168.2.1, distance_metric: 115, name: "to client on R1" } 
+                      - { forward_router_address: '192.168.2.1', distance_metric: 115, name: "to client on R1" } 
 
                   - dest: 1.1.1.1/32 
                     next_hops:     
-                      - { forward_router_address: 192.168.2.1, distance_metric: 115, name: "to RID R1" } 
+                      - { forward_router_address: '192.168.2.1', distance_metric: 115, name: "to RID R1" } 
 
                   - dest: 2.2.2.2/32
                     next_hops:     
-                      - { forward_router_address: 192.168.2.1, distance_metric: 115, name: "to RID R2" } 
+                      - { forward_router_address: '192.168.2.1', distance_metric: 115, name: "to RID R2" } 
 
           state: merged
