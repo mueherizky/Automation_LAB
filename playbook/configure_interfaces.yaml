@@ -4,12 +4,12 @@
 
 ############ Router 1 ################
 
-  - name: "configuring r1 interfaces"
+  - name: "Configuring Interfaces"
     hosts: r1.lab
     gather_facts: no
     tasks:
 
-      - name: "configuring..."
+      - name: "Configuring R1 Interfaces."
         cisco.ios.ios_interfaces:
           config:
             - name: GigabitEthernet0/1
@@ -30,12 +30,11 @@
 
 ################ Router 2 ###################
 
-  - name: "configuring r2 interfaces"
-    hosts: r2.lab
+  - hosts: r2.lab
     gather_facts: no
     tasks:
 
-      - name: "configuring..."
+      - name: "Configuring R2 Interfaces"
         cisco.ios.ios_interfaces:
           config:
             - name: GigabitEthernet0/1
@@ -56,12 +55,11 @@
 
 ############ Router 3 ##################
 
-  - name: configuring r3 interfaces
-    hosts: r3.lab
+  - hosts: r3.lab
     gather_facts: no
     tasks:
 
-      - name: "configuring..."
+      - name: "Configuring R3 Interfaces"
         cisco.ios.ios_interfaces:
           config:
             - name: GigabitEthernet0/1

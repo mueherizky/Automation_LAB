@@ -3,12 +3,12 @@
 ######### Adding IPv4 Address to Interfaces on each Routers ##########
 
 ############## Router 1 ################
-  - name: configuring router 1
+  - name: "Configure IP Address"
     hosts: r1.lab
     gather_facts: no
     tasks:
 
-      - name: "configuring..."
+      - name: "Adding IP on R1 Interfaces"
         cisco.ios.ios_l3_interfaces:
           config:
             - name: GigabitEthernet0/1
@@ -28,12 +28,11 @@
 
 ############ Router 2 ################
 
-  - name: "configuring router 2"
-    hosts: r2.lab
+  - hosts: r2.lab
     gather_facts: no
     tasks:
 
-      - name: "configuring..."
+      - name: "Adding IP on R2 Interfaces"
         cisco.ios.ios_l3_interfaces:
           config:
             - name: GigabitEthernet0/1
@@ -52,11 +51,10 @@
 
 ############### Router 3 ##################
 
-  - name: "configuring r3"
-    hosts: r3.lab
+  - hosts: r3.lab
     gather_facts: no
     tasks:
-      - name: "configuring..."
+      - name: "Adding IP on R3 Interfaces"
         cisco.ios.ios_l3_interfaces:
           config:
             - name: GigabitEthernet0/2

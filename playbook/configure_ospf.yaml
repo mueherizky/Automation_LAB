@@ -4,12 +4,12 @@
 
 ############ Router 1 ##################
 
-  - name: configuring R1
+  - name: "Configure OSPF"
     hosts: r1.lab
     gather_facts: false
     tasks:
 
-      - name: configuring...
+      - name: "Configuring R1"
         cisco.ios.ios_ospfv2:
           config:
             processes:
@@ -30,12 +30,11 @@
 
 ############### Router 2 #################
 
-  - name: configuring R2
-    hosts: r2.lab
+  - hosts: r2.lab
     gather_facts: false
     tasks:
 
-      - name: configuring...
+      - name: "Configuring R2"
         cisco.ios.ios_ospfv2:
           config:
             processes:
@@ -56,12 +55,11 @@
 
  ############ Router 3 ###############
 
-  - name: configuring R3
-    hosts: r3.lab
+  - hosts: r3.lab
     gather_facts: false
     tasks:
 
-      - name: configuring...
+      - name: "Configuring R3"
         cisco.ios.ios_ospfv2:
           config:
             processes:
