@@ -17,10 +17,6 @@
               duplex: full
               enabled: true
 
-            - name: GigabitEthernet0/2
-              duplex: full
-              enabled: false
-
             - name: GigabitEthernet0/3
               description: "to client"
               duplex: full
@@ -47,10 +43,6 @@
               duplex: full
               enabled: true
 
-            - name: GigabitEthernet0/3
-              duplex: full
-              enabled: false
-
           state: replaced
 
 ############ Router 3 ##################
@@ -62,9 +54,6 @@
       - name: "Configuring R3 Interfaces"
         cisco.ios.ios_interfaces:
           config:
-            - name: GigabitEthernet0/1
-              duplex: full
-              enabled: false
 
             - name: GigabitEthernet0/2
               description: "to R2"
