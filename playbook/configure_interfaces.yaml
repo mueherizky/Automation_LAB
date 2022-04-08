@@ -16,6 +16,11 @@
               description: "to R2"
               duplex: full
               enabled: true
+            
+            - name: GigabitEthernet0/2
+              description: "to Internet"
+              duplex: full
+              enabled: true
 
             - name: GigabitEthernet0/3
               description: "to client"
@@ -43,7 +48,7 @@
               duplex: full
               enabled: true
 
-          state: replaced
+          state: merged
 
 ############ Router 3 ##################
 
@@ -65,4 +70,4 @@
               duplex: full
               enabled: true
 
-          state: replaced
+          state: merged
