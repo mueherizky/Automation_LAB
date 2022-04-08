@@ -21,10 +21,15 @@
                   - { address: 192.168.3.0, wildcard_bits: 0.0.0.3, area: '0' }
                   - { address: 1.1.1.1, wildcard_bits: 0.0.0.0, area: '0' }
 
+                passive_interfaces: 
+                  interface:
+                    name: [ 'GigabitEthernet0/3', 'Loopback0' ]
+                    set_interface: yes
+
                 log_adjacency_changes:
                   set: yes
 
-          state: replaced
+          state: merged
 
 
 
@@ -45,11 +50,16 @@
                   - { address: 192.168.1.0, wildcard_bits: 0.0.0.3, area: '0' }
                   - { address: 192.168.2.0, wildcard_bits: 0.0.0.3, area: '0' }
                   - { address: 2.2.2.2, wildcard_bits: 0.0.0.0, area: '0' }
+                
+                passive_interfaces: 
+                  interface:
+                    name: [ 'Loopback0' ]
+                    set_interface: yes
   
                 log_adjacency_changes:
                   set: yes
 
-          state: replaced
+          state: merged
 
 
 
@@ -70,8 +80,13 @@
                   - { address: 192.168.2.0, wildcard_bits: 0.0.0.3, area: '0' }
                   - { address: 192.168.5.0, wildcard_bits: 0.0.0.3, area: '0' }
                   - { address: 3.3.3.3, wildcard_bits: 0.0.0.0, area: '0' }
+
+                passive_interfaces: 
+                  interface:
+                    name: [ 'GigabitEthernet0/3', 'Loopback0' ]
+                    set_interface: yes
     
                 log_adjacency_changes:
                   set: yes
 
-          state: replaced
+          state: merged
