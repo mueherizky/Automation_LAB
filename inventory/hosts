@@ -1,6 +1,6 @@
 # Author: https://www.github.com/mueherizky
 
-; [r_one]
+[r_one]
 r1.lab ansible_host=192.168.122.5 
 
 [r_two]
