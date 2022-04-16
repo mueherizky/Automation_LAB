@@ -1,0 +1,43 @@
+# Author: https://www.github.com/mueherizky
+
+---
+
+# - name: "Configure Routers"
+#   hosts: routers
+#   gather_facts: false
+#   roles: routers
+
+# - hosts: r_one
+#   gather_facts: false
+#   roles: r_one
+
+# - hosts: r_two
+#   gather_facts: false
+#   roles: r_two
+
+# - hosts: r_three
+#   gather_facts: false
+#   roles: r_three
+
+  - name: "Configure Switch"
+    hosts: switches
+    gather_facts: false
+    roles: 
+      - switches
+
+  - hosts: s_one
+    gather_facts: false
+    roles: 
+      - s_one
+
+  - hosts: s_two
+    gather_facts: false
+    roles: 
+      - s_two
+
+  - hosts: s_three
+    gather_facts: false
+    roles: 
+      - s_three
+
+
