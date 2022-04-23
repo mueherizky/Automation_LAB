@@ -3,51 +3,33 @@
   cisco.ios.ios_interfaces:
     config:
       - name: GigabitEthernet0/1
-        description: "Bundle"
-        duplex: full
-        enabled: true
-      
-      - name: GigabitEthernet0/2
-        description: "Bundle"
+        description: "to R.Core"
         duplex: full
         enabled: true
 
       - name: GigabitEthernet0/3
-        description: "Bundle"
+        description: "to Client"
         duplex: full
         enabled: true
 
-      - name: GigabitEthernet0/4
-        description: "Bundle"
-        duplex: full
-        enabled: true
-
-    state: merged
+    state: replaced
 
 - name: "Adding IP on R2 Interfaces"
   cisco.ios.ios_l3_interfaces:
     config:
       - name: GigabitEthernet0/1
         ipv4:
-          - address: 192.168.1.2/30
-
-      - name: GigabitEthernet0/2
-        ipv4:
-          - address: 192.168.2.2/30
+          - address: 192.168.3.2/30
         
       - name: GigabitEthernet0/3
         ipv4:
-          - address: 192.168.4.1/30
-
-      - name: GigabitEthernet0/4
-        ipv4:
-          - address: 192.168.5.1/30
+          - address: 192.168.6.1/24
               
       - name: Loopback0
         ipv4:
           - address: 2.2.2.2/32
 
-    state: merged
+    state: replaced
 
 
 #### OSPF Conf ####
@@ -59,18 +41,28 @@
         - process_id: 100
           router_id: 2.2.2.2
           network:
-            - { address: 192.168.1.0, wildcard_bits: 0.0.0.3, area: '0' }
-            - { address: 192.168.2.0, wildcard_bits: 0.0.0.3, area: '0' }
-            - { address: 192.168.4.0, wildcard_bits: 0.0.0.3, area: '0' }
-            - { address: 192.168.5.0, wildcard_bits: 0.0.0.3, area: '0' }
+            - { address: 192.168.3.0, wildcard_bits: 0.0.0.3, area: '0' }
+            - { address: 192.168.6.0, wildcard_bits: 0.0.0.255, area: '0' }
             - { address: 2.2.2.2, wildcard_bits: 0.0.0.0, area: '0' }
 
           passive_interfaces: 
             interface:
-              name: [ 'Loopback0' ]
+              name: [ 'Loopback0', 'GigabitEthernet0/3' ]
               set_interface: yes
 
           log_adjacency_changes:
             set: yes
 
     state: merged
+
+
+#### Create DHCP Pool ####
+- name: create POOL
+  cisco.ios.ios_config:
+    parents: ip dhcp pool net
+    lines: 
+      - network 192.168.6.0 /24
+      - def 192.168.6.1
+      - dns 8.8.8.8
+      - exit
+

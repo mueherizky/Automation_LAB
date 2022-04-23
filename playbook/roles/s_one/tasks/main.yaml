@@ -2,11 +2,34 @@
 - name: "Configure Trunk S1"
   cisco.ios.ios_l2_interfaces:
     config:
-      - name: GigabitEthernet0/2
+      - name: GigabitEthernet0/1
         trunk:
           allowed_vlans: 2-3
           encapsulation: dot1q
           native_vlan: 1000
         mode: trunk
 
-    state: merged
+    state: replaced
+
+#### Add IP ####
+- name: "Adding IP on VLAN Int"
+  cisco.ios.ios_l3_interfaces:
+    config:
+      - name: vlan 2
+        ipv4:
+          - address: 192.168.7.2/24
+      - name: vlan 3
+        ipv4:
+          - address: 192.168.8.2/24
+
+    state: replaced
+
+- name: "Activating Link"
+  cisco.ios.ios_interfaces:
+    config:
+      - name: vlan 2
+        enabled: true
+      - name: vlan 3
+        enabled: true
+
+    state: replaced

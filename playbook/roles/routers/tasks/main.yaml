@@ -29,3 +29,12 @@
       Or you'll get caught!!
   
     state: present
+
+- name: "Additional Commands"
+  cisco.ios.ios_config:
+    lines:
+      - no cdp run
+      - ip domain-lookup
+      - ip name-server 8.8.8.8
+     
+    replace: line

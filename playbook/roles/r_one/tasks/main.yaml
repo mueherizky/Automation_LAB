@@ -2,55 +2,36 @@
 - name: "Activating Link"
   cisco.ios.ios_interfaces:
     config:
-      - name: GigabitEthernet0/1
-        description: "Bundle"
-        duplex: full
-        enabled: true
-      
       - name: GigabitEthernet0/2
-        description: "Bundle"
+        description: "to Switch 1"
         duplex: full
         enabled: true
 
       - name: GigabitEthernet0/3
-        description: "to Client"
+        description: "to core router"
         duplex: full
         enabled: true
 
-      - name: GigabitEthernet0/4
-        description: "to Internet"
-        duplex: full
-        enabled: true
-
-    state: merged
+    state: replaced
 
 
 #### Add IP ####
 - name: "Adding IP on R1 Interfaces"
   cisco.ios.ios_l3_interfaces:
     config:
-      - name: GigabitEthernet0/1
-        ipv4:
-          - address: 192.168.1.1/30
-
       - name: GigabitEthernet0/2
         ipv4:
-          - address: 192.168.2.1/30
+          - address: 192.168.5.1/24
         
       - name: GigabitEthernet0/3
         ipv4:
-          - address: 192.168.3.1/27
-
-      - name: GigabitEthernet0/4
-        ipv4:
-          - dhcp:
-              enable: yes
+          - address: 192.168.2.2/30
 
       - name: Loopback0
         ipv4:
           - address: 1.1.1.1/32
 
-    state: merged
+    state: replaced
 
 
 #### OSPF Conf ####
@@ -62,17 +43,52 @@
         - process_id: 100
           router_id: 1.1.1.1
           network:
-            - { address: 192.168.1.0, wildcard_bits: 0.0.0.3, area: '0' }
             - { address: 192.168.2.0, wildcard_bits: 0.0.0.3, area: '0' }
-            - { address: 192.168.3.0, wildcard_bits: 0.0.0.31, area: '0' }
+            - { address: 192.168.5.0, wildcard_bits: 0.0.0.255, area: '0' }
             - { address: 1.1.1.1, wildcard_bits: 0.0.0.0, area: '0' }
 
           passive_interfaces: 
             interface:
-              name: [ 'GigabitEthernet0/3', 'Loopback0' ]
+              name: [ 'Loopback0', 'GigabitEthernet0/2' ]
               set_interface: yes
 
           log_adjacency_changes:
             set: yes
 
-    state: merged
+    state: replaced
+
+#### Add Sub-Int ####
+- name: create sub interfaces vlan 2
+  cisco.ios.ios_config:
+    parents: interface g0/2.2
+    lines: 
+      - encap dot 2
+      - ip add 192.168.7.1 255.255.255.0
+      - exit
+
+- name: create sub interfaces vlan 3
+  cisco.ios.ios_config:
+    parents: interface g0/2.3
+    lines: 
+      - encap dot 3
+      - ip add 192.168.8.1 255.255.255.0
+      - exit
+
+#### Create DHCP Pool ####
+- name: create POOL vlan2
+  cisco.ios.ios_config:
+    parents: ip dhcp pool vlan4
+    lines: 
+      - network 192.168.7.0 /24
+      - def 192.168.7.1
+      - dns 8.8.8.8
+      - exit
+
+- name: create POOL vlan3
+  cisco.ios.ios_config:
+    parents: ip dhcp pool vlan3
+    lines: 
+      - network 192.168.8.0 /24
+      - def 192.168.8.1
+      - dns 8.8.8.8
+      - exit

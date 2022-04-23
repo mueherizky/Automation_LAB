@@ -12,40 +12,40 @@
         shutdown: disabled
         state: active
 
-    state: merged
+    state: replaced
 
 #### Activate Interfaces ####
 - name: "Activating Link"
   cisco.ios.ios_interfaces:
     config:
-      - name: GigabitEthernet0/1
+      - name: GigabitEthernet0/2
         description: "to VLAN 2"
         duplex: full
         enabled: true
       
-      - name: GigabitEthernet0/2
+      - name: GigabitEthernet0/3
         description: "to VLAN 3"
         duplex: full
         enabled: true
 
-    state: merged
+    state: replaced
 
 
 #### Configure Access Link ####
 - name: "Configuring Access Mode"
   cisco.ios.ios_l2_interfaces:
     config:
-      - name: GigabitEthernet0/1
+      - name: GigabitEthernet0/2
         access:
           vlan: 2
         mode: access
 
-      - name: GigabitEthernet0/2
+      - name: GigabitEthernet0/3
         access:
           vlan: 3
         mode: access
 
-    state: merged
+    state: replaced
 
 #### Configure Banner ####
 - name: "Customing Login Banner"
@@ -78,3 +78,10 @@
       Or you'll get caught!!
   
     state: present
+
+- name: "Additional Commands"
+  cisco.ios.ios_config:
+    lines:
+      - no cdp run
+    
+    replace: line
