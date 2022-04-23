@@ -1,38 +1,30 @@
 # Author: https://www.github.com/mueherizky
 
+[core]
+core.lab ansible_host=192.168.122.253 
+
 [r_one]
 r1.lab ansible_host=192.168.122.5 
 
 [r_two]
 r2.lab ansible_host=192.168.122.6 
 
-[r_three]
-r3.lab ansible_host=192.168.122.7 
-
 [routers:children]
+core
 r_one
 r_two
-r_three
 
-[routers_vars]
+[routers:vars]
 ansible_user=cisco
 ansible_password=cisco
 ansible_connection=network_cli 
 ansible_network_os=ios
 
 [s_one]
-s1.lab ansible_host=192.168.122.8 
-
-[s_two]
-s2.lab ansible_host=192.168.122.9 
-
-[s_three]
-s3.lab ansible_host=192.168.122.10 
+s1.lab ansible_host=192.168.122.7
 
 [switches:children]
 s_one
-s_two
-s_three
 
 [switches:vars]
 ansible_user=cisco
