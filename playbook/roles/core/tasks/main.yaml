@@ -43,14 +43,17 @@
           network:
             - { address: 192.168.2.0, wildcard_bits: 0.0.0.3, area: '0' }
             - { address: 192.168.3.0, wildcard_bits: 0.0.0.3, area: '0' }
-            - { address: 192.168.122.0, wildcard_bits: 0.0.0.255, area: '0' }
             - { address: 3.3.3.3, wildcard_bits: 0.0.0.0, area: '0' }
+          
+          default_information:
+            originate: yes 
+            always: yes
 
           passive_interfaces: 
             interface:
               name: [ Loopback0 ]
-              set_interface: yes
-
+              set_interface: yes        
+          
           log_adjacency_changes:
             set: yes
 
@@ -81,3 +84,4 @@
     lines: 
       - acc 1 perm any
       - ip nat ins source list 1 int gig0/0 overload
+      - ip route 0.0.0.0 0.0.0.0 192.168.122.1
