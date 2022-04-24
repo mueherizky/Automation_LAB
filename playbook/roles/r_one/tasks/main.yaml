@@ -45,6 +45,8 @@
           network:
             - { address: 192.168.2.0, wildcard_bits: 0.0.0.3, area: '0' }
             - { address: 192.168.5.0, wildcard_bits: 0.0.0.255, area: '0' }
+            - { address: 192.168.7.0, wildcard_bits: 0.0.0.255, area: '0' }
+            - { address: 192.168.8.0, wildcard_bits: 0.0.0.255, area: '0' }
             - { address: 1.1.1.1, wildcard_bits: 0.0.0.0, area: '0' }
 
           passive_interfaces: 
