@@ -49,6 +49,10 @@
             originate: yes 
             always: yes
 
+          auto_cost:
+            reference_bandwidth: 1000
+            set: yes
+
           passive_interfaces: 
             interface:
               name: [ Loopback0 ]
@@ -84,4 +88,5 @@
     lines: 
       - acc 1 perm any
       - ip nat ins source list 1 int gig0/0 overload
+      - ip route 0.0.0.0 0.0.0.0 gig0/0 192.168.122.1
       - ip route 0.0.0.0 0.0.0.0 192.168.122.1
