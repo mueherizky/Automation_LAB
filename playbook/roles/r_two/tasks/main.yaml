@@ -50,6 +50,10 @@
               name: [ 'Loopback0', 'GigabitEthernet0/3' ]
               set_interface: yes
 
+          auto_cost:
+            reference_bandwidth: 1000
+            set: yes
+
           log_adjacency_changes:
             set: yes
 
