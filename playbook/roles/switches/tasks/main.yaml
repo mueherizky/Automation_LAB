@@ -31,6 +31,11 @@
         duplex: full
         enabled: true
 
+      - name: GigabitEthernet1/0
+        description: "to VLAN 3"
+        duplex: full
+        enabled: true
+
     state: replaced
 
 
@@ -44,6 +49,11 @@
         mode: access
 
       - name: GigabitEthernet0/3
+        access:
+          vlan: 3
+        mode: access
+
+      - name: GigabitEthernet1/0
         access:
           vlan: 3
         mode: access
