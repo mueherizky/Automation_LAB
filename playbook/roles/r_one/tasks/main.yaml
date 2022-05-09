@@ -101,3 +101,35 @@
       - def 192.168.8.1
       - dns 8.8.8.8
       - exit
+
+#### Make ACL Rules ####
+- name: Add ACL Rules
+  cisco.ios.ios_acls:
+    config: 
+      - afi: ipv4
+        acls:
+          - name: deny_client_4
+            acl_type: extended
+            aces:
+              - grant: deny 
+                source:
+                  host: 192.168.8.3
+                destination: 
+                  address: 192.168.122.253
+                  wildcard_bits: 0.0.0.255
+    
+    state: merged
+
+#### Enable ACLs ####
+- name: Enable ACL
+  cisco.ios.ios_acl_interfaces:
+    config:
+      - name: GigabitEthernet0/3
+        access_groups:
+          - afi: ipv4
+            acls:
+              - name: deny_client_4
+                direction: out
+
+    state: merged
+            
