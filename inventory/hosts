@@ -1,5 +1,3 @@
-# Author: https://www.github.com/mueherizky
-
 [core]
 core.lab ansible_host=192.168.122.253 
 

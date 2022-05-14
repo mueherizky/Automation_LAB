@@ -1,7 +1,3 @@
-# Author: https://www.github.com/mueherizky
-
-
-
 #### Activate Interfaces ####
 - name: "Activating Link"
   cisco.ios.ios_interfaces:

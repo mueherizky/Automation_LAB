@@ -1,6 +1,3 @@
-# Author: https://www.github.com/mueherizky
-
-
 #### Configure Trunk Link #### 
 - name: "Configure Trunk S1"
   cisco.ios.ios_l2_interfaces:
@@ -13,6 +10,7 @@
         mode: trunk
 
     state: replaced
+
 
 #### Add IP ####
 - name: "Adding IP on VLAN Int"
