@@ -1,6 +1,3 @@
-# Author: https://www.github.com/mueherizky
-
-
 #### Configure Banner ####
 - name: "Customing Login Banner"
   cisco.ios.ios_banner:
@@ -33,6 +30,8 @@
   
     state: present
 
+
+#### Additional Commands ####
 - name: "Additional Commands"
   cisco.ios.ios_config:
     lines:
