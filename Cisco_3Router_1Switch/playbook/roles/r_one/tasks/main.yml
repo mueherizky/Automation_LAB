@@ -1,0 +1,136 @@
+#### Activate Interfaces ####
+- name: "Activating Link"
+  cisco.ios.ios_interfaces:
+    config:
+      - name: GigabitEthernet0/2
+        description: "to Switch 1"
+        duplex: full
+        enabled: true
+
+      - name: GigabitEthernet0/3
+        description: "to core router"
+        duplex: full
+        enabled: true
+
+    state: replaced
+
+
+#### Add IP ####
+- name: "Adding IP on R1 Interfaces"
+  cisco.ios.ios_l3_interfaces:
+    config:
+      - name: GigabitEthernet0/2
+        ipv4:
+          - address: 192.168.5.1/24
+        
+      - name: GigabitEthernet0/3
+        ipv4:
+          - address: 192.168.2.2/30
+
+      - name: Loopback0
+        ipv4:
+          - address: 1.1.1.1/32
+
+    state: replaced
+
+
+#### OSPF Conf ####
+- name: "OSPF R1"
+  cisco.ios.ios_ospfv2:
+    config:
+      processes:
+
+        - process_id: 100
+          router_id: 1.1.1.1
+          network:
+            - { address: 192.168.2.0, wildcard_bits: 0.0.0.3, area: '0' }
+            - { address: 192.168.5.0, wildcard_bits: 0.0.0.255, area: '0' }
+            - { address: 192.168.7.0, wildcard_bits: 0.0.0.255, area: '0' }
+            - { address: 192.168.8.0, wildcard_bits: 0.0.0.255, area: '0' }
+            - { address: 1.1.1.1, wildcard_bits: 0.0.0.0, area: '0' }
+
+          passive_interfaces: 
+            interface:
+              name: [ 'Loopback0', 'GigabitEthernet0/2' ]
+              set_interface: yes
+
+          auto_cost:
+            reference_bandwidth: 1000
+            set: yes
+
+          log_adjacency_changes:
+            set: yes
+
+    state: replaced
+
+
+#### Add Sub-Int ####
+- name: create sub interfaces vlan 2
+  cisco.ios.ios_config:
+    parents: interface g0/2.2
+    lines: 
+      - encap dot 2
+      - ip add 192.168.7.1 255.255.255.0
+      - exit
+
+- name: create sub interfaces vlan 3
+  cisco.ios.ios_config:
+    parents: interface g0/2.3
+    lines: 
+      - encap dot 3
+      - ip add 192.168.8.1 255.255.255.0
+      - exit
+
+
+#### Create DHCP Pool ####
+- name: create POOL vlan2
+  cisco.ios.ios_config:
+    parents: ip dhcp pool vlan4
+    lines: 
+      - network 192.168.7.0 /24
+      - def 192.168.7.1
+      - dns 8.8.8.8
+      - exit
+
+- name: create POOL vlan3
+  cisco.ios.ios_config:
+    parents: ip dhcp pool vlan3
+    lines: 
+      - network 192.168.8.0 /24
+      - def 192.168.8.1
+      - dns 8.8.8.8
+      - exit
+
+
+# #### Make ACL Rules ####
+# - name: Add ACL Rules
+#   cisco.ios.ios_acls:
+#     config: 
+#       - afi: ipv4
+#         acls:
+#           - name: deny_client_4
+#             acl_type: extended
+#             aces:
+#               - grant: deny 
+#                 source:
+#                   host: 192.168.8.3
+#                 destination: 
+#                   address: 192.168.122.253
+#                   wildcard_bits: 0.0.0.255
+    
+#     state: merged
+
+
+#### Enable ACLs ####
+- name: Enable ACL
+  cisco.ios.ios_acl_interfaces:
+    config:
+      - name: GigabitEthernet0/3
+        access_groups:
+          - afi: ipv4
+            acls:
+              - name: deny_client_4
+                direction: out
+
+    state: merged
+            

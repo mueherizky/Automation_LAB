@@ -1,0 +1,92 @@
+#### Activate Interfaces ####
+- name: "Activating Link"
+  cisco.ios.ios_interfaces:
+    config:
+      - name: GigabitEthernet0/1
+        description: "to R2"
+        duplex: full
+        enabled: true
+
+      - name: GigabitEthernet0/4
+        description: "to R1"
+        duplex: full
+        enabled: true
+
+    state: replaced
+
+- name: "Adding IP on R.Core Interfaces"
+  cisco.ios.ios_l3_interfaces:
+    config:
+      - name: GigabitEthernet0/1
+        ipv4:
+          - address: 192.168.3.1/30
+             
+      - name: GigabitEthernet0/4
+        ipv4:
+          - address: 192.168.2.1/30
+
+      - name: Loopback0
+        ipv4:
+          - address: 3.3.3.3/32
+
+    state: replaced
+
+
+#### OSPF Conf ####
+- name: "OSPF R.Core"
+  cisco.ios.ios_ospfv2:
+    config:
+      processes:
+
+        - process_id: 100
+          router_id: 3.3.3.3
+          network:
+            - { address: 192.168.2.0, wildcard_bits: 0.0.0.3, area: '0' }
+            - { address: 192.168.3.0, wildcard_bits: 0.0.0.3, area: '0' }
+            - { address: 3.3.3.3, wildcard_bits: 0.0.0.0, area: '0' }
+          
+          default_information:
+            originate: yes 
+            always: yes
+
+          auto_cost:
+            reference_bandwidth: 1000
+            set: yes
+
+          passive_interfaces: 
+            interface:
+              name: [ Loopback0 ]
+              set_interface: yes        
+          
+          log_adjacency_changes:
+            set: yes
+
+    state: replaced
+
+
+#### NAT ####
+- name: create PAT
+  cisco.ios.ios_config:
+    parents: int g0/0
+    lines: 
+      - ip nat outside
+
+- name: create PAT
+  cisco.ios.ios_config:
+    parents: int g0/1
+    lines: 
+      - ip nat inside 
+
+- name: create PAT
+  cisco.ios.ios_config:
+    parents: int g0/4
+    lines: 
+      - ip nat inside    
+
+- name: create PAT
+  cisco.ios.ios_config:
+    lines: 
+      - acc 1 perm any
+      - ip nat ins source list 1 int gig0/0 overload
+      - ip route 0.0.0.0 0.0.0.0 gig0/0 192.168.122.1
+      - ip route 0.0.0.0 0.0.0.0 192.168.122.1
