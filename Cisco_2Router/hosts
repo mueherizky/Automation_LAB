@@ -1,0 +1,15 @@
+[r_one]
+r1.lab ansible_host=192.168.122.11 ansible_user=cisco1 ansible_password=cisco1
+
+[r_two]
+r2.lab ansible_host=192.168.122.12 ansible_user=cisco2 ansible_password=cisco2
+
+[routers:children]
+r_one
+r_two
+
+[routers:vars]
+ansible_connection=network_cli 
+ansible_network_os=ios
+
+
