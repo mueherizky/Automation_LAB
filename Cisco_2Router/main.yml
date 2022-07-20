@@ -1,0 +1,13 @@
+---
+
+  - name: Configure Router 1
+    hosts: r_one
+    gather_facts: False
+    roles: 
+      - r_one 
+
+  - name: Configure Router 2
+    hosts: r_two
+    gather_facts: False
+    roles: 
+      - r_two
